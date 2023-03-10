@@ -21,7 +21,7 @@
     <mat-card-content>
       <mat-nav-list *ngIf="(checkouts$ | async) as checkout">
         <a mat-list-item *ngFor="let checkout of checkout.content" [routerLink]="['/checkouts', checkout.id]">
-          {{checkout.borrowedBook.title +" Borrower: "+ checkout.borrowerFirstName}}
+          {{checkout.borrowedBook.title +", Borrower: "+ checkout.borrowerFirstName}}
         </a>
       </mat-nav-list>
       <mat-paginator [length]="(checkouts$ | async)?.totalPages ?? 0"
