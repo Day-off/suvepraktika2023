@@ -2,11 +2,34 @@
   <mat-card>
     <mat-card-title>Books</mat-card-title>
     <mat-card-content>
+      <mat-toolbar>
+        <mat-form-field appearance="fill">
+          <mat-label>Sort By</mat-label>
+          <mat-select #sort (selectionChange)="onSortChange($event.value, direction.value)">
+            <mat-option value="title">Title</mat-option>
+            <mat-option value="author">Author</mat-option>
+            <mat-option value="">Default</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Direction</mat-label>
+          <mat-select #direction (selectionChange)="onSortChange(sort.value, $event.value)">
+            <mat-option value="asc">Ascending</mat-option>
+            <mat-option value="desc">Descending</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-toolbar>
       <mat-nav-list *ngIf="(books$ | async) as books">
         <a mat-list-item *ngFor="let book of books.content" [routerLink]="['/books', book.id]">
           {{book.title}}
         </a>
       </mat-nav-list>
+      <mat-paginator [length]="(books$ | async)?.totalPages ?? 0"
+                     [pageIndex]="(books$ | async)?.number"
+                     [pageSizeOptions]="[5, 10, 25, 100]"
+                     [accessKey]="['asc','desc','']"
+                     (page)="onPageChange($event)">
+      </mat-paginator>
     </mat-card-content>
   </mat-card>
 </div>
