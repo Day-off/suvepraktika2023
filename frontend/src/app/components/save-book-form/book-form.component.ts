@@ -24,9 +24,13 @@ export class BookForm {
   }
 
   saveBook(book: Book) {
+    console.log("SAVE BOOK")
     book.added = this.getCurrentDate();
-    book.status = "AVAILABLE"
-    this.bookService.saveBook(book);
+    book.status = "AVAILABLE";
+    book.dueDate = '';
+    book.checkOutCount = 0;
+    console.log(book)
+    return this.bookService.saveBook(book);
   }
 
 

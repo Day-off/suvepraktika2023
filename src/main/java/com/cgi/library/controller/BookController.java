@@ -19,11 +19,13 @@ public class BookController {
 
     @GetMapping(value = "getBooks")
     public ResponseEntity<Page<BookDTO>> getBooks(Pageable pageable) {
+        System.out.println("BOOKS");
         return ResponseEntity.ok(bookService.getBooks(pageable));
     }
 
     @GetMapping(value = "getBook")
     public ResponseEntity<BookDTO> getBook(@RequestParam(value = "bookId") UUID bookId) {
+        System.out.println("GET BOOK");
         return ResponseEntity.ok(bookService.getBook(bookId));
     }
 
@@ -35,6 +37,7 @@ public class BookController {
     @DeleteMapping(value = "deleteBook")
     public ResponseEntity<String> deleteBook(@RequestParam(value = "bookId") UUID bookId) {
         bookService.deleteBook(bookId);
-        return ResponseEntity.ok("");
+        System.out.println("GET DELETE REQUEST");
+        return ResponseEntity.ok("Ok");
     }
 }

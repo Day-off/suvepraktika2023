@@ -22,7 +22,6 @@ export class BooksListComponent implements OnInit {
     private bookService: BookService,
   ) {
   }
-
   onSortChange(sortBy: string, direction: 'asc' | 'desc') {
     this.pageRequest$.sort = sortBy;
     this.pageRequest$.direction = direction || 'asc';
@@ -37,9 +36,12 @@ export class BooksListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this observable should emit books taking into consideration pagination, sorting and filtering options.
     this.books$ = this.bookService.getBooks(this.pageRequest$);
-
   }
 
+  deleteBook(id: string) {
+    this.bookService.deleteBook(id);
+    console.log("DELETE")
+    this.ngOnInit()
+  }
 }

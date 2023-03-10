@@ -21,10 +21,11 @@
       </mat-toolbar>
       <mat-nav-list *ngIf="(books$ | async) as books">
         <a mat-list-item *ngFor="let book of books.content" [routerLink]="['/books', book.id]">
+          <button mat-button type="button" color="warn" (click)="deleteBook(book.id)" style="float: right">Delete</button>
           {{book.title}}
         </a>
       </mat-nav-list>
-      <mat-paginator [length]="(books$ | async)?.totalPages ?? 0"
+      <mat-paginator [length]="(books$ | async)?.totalElements ?? 0"
                      [pageIndex]="(books$ | async)?.number"
                      [pageSizeOptions]="[5, 10, 25, 100]"
                      [accessKey]="['asc','desc','']"
