@@ -16,6 +16,7 @@ public class Book {
 
     @Id
     @Column
+    @GeneratedValue(generator = "uuid2")
     @Type(type="uuid-char")
     private UUID id;
 

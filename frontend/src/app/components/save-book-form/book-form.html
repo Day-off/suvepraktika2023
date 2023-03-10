@@ -1,0 +1,29 @@
+<form #bookForm="ngForm" (submit)="saveBook(bookForm.value)">
+  <input type="hidden" name="id" value=null>
+
+  <mat-form-field>
+    <input matInput placeholder="Title" name="title" ngModel required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Author" name="author" ngModel required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Genre" name="genre" ngModel required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Year" name="year" ngModel type="number" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Comment" name="comment" ngModel>
+  </mat-form-field>
+  <mat-form-field>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="!bookForm.valid">
+    Save
+  </button>
+</form>
