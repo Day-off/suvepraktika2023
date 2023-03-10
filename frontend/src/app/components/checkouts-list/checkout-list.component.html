@@ -1,12 +1,35 @@
 <div class="container mat-elevation-z4">
   <mat-card>
     <mat-card-title>Checkouts</mat-card-title>
+    <mat-toolbar>
+      <mat-form-field appearance="fill">
+        <mat-label>Sort By</mat-label>
+        <mat-select #sort (selectionChange)="onSortChange($event.value, direction.value)">
+          <mat-option value="borrowedBook.title">Title</mat-option>
+          <mat-option value="dueDate">dueDate</mat-option>
+          <mat-option value="">Default</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Direction</mat-label>
+        <mat-select #direction (selectionChange)="onSortChange(sort.value, $event.value)">
+          <mat-option value="asc">Ascending</mat-option>
+          <mat-option value="desc">Descending</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-toolbar>
     <mat-card-content>
       <mat-nav-list *ngIf="(checkouts$ | async) as checkout">
         <a mat-list-item *ngFor="let checkout of checkout.content" [routerLink]="['/checkouts', checkout.id]">
-          {{checkout.id}}
+          {{checkout.borrowedBook.title +" Borrower: "+ checkout.borrowerFirstName}}
         </a>
       </mat-nav-list>
+      <mat-paginator [length]="(checkouts$ | async)?.totalPages ?? 0"
+                     [pageIndex]="(checkouts$ | async)?.number"
+                     [pageSizeOptions]="[5, 10, 25, 100]"
+                     [accessKey]="['asc','desc','']"
+                     (page)="onPageChange($event)">
+      </mat-paginator>
     </mat-card-content>
   </mat-card>
 </div>
