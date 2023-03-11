@@ -46,7 +46,10 @@ export class BookService {
     return this.http.delete<void>(url, {params});
   }
 
-  updateBook() {
-    console.log("SEND REQUEST")
+  updateBook(book: Book): Observable<void> {
+    console.log("SEND UPDATE")
+    const url = this.baseUrl + '/updateBook';
+    console.log(book)
+    return this.http.put<void>(url, book);
   }
 }

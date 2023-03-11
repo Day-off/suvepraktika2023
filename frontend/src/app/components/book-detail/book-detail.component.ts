@@ -11,7 +11,20 @@ import {map, switchMap} from 'rxjs/operators';
   styleUrls: ['./book-detail.component.scss']
 })
 export class BookDetailComponent implements OnInit {
-  book$!: Observable<Book>;
+  // book$!: Observable<Book>;
+
+  // @ts-ignore
+  book$: Book = {
+    id: '',
+    title: '',
+    author: '',
+    year: 0,
+    genre: '',
+    comment: ''
+  };
+
+  viewBook$!: Observable<Book>
+
 
   editMode = false;
 
@@ -23,9 +36,13 @@ export class BookDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.book$ = this.route.params
+    this.viewBook$ = this.route.params
       .pipe(map(params => params['id']))
       .pipe(switchMap(id => this.bookService.getBook(id)))
+    this.route.params
+      .pipe(map(params => params['id']))
+      .pipe(switchMap(id => this.bookService.getBook(id)))
+      .subscribe(book => this.book$ = book);
   }
 
   goBack(): void {
@@ -35,9 +52,8 @@ export class BookDetailComponent implements OnInit {
     this.editMode = !this.editMode;
   }
 
-  updateBook() {
-    this.book$.subscribe(book => {
-      this.bookService.updateBook(book)
-    });
+  updateBook(book: Book) {
+    console.log(book);
+   this.bookService.updateBook(book).subscribe();
   }
 }

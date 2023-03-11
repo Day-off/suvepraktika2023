@@ -4,24 +4,29 @@
   </button>
 
   <ng-container *ngIf="!editMode; else edit">
-    <pre>{{ book$ | async | json }}</pre>
+    <pre>{{ viewBook$ | async | json }}</pre>
     <button mat-button color="sucsses" (click)="goBack()">Back</button>
   </ng-container>
   <ng-template #edit>
     <div>
-      <form (ngSubmit)="updateBook()" #bookForm="ngForm">
+      <form #bookForm="ngForm" (submit)="updateBook(bookForm.value)">
+        <input type="hidden" name="id" [(ngModel)]="book$.id">
         <mat-form-field>
-          <input matInput placeholder="Title" name="title" [(ngModel)]="book$" required>
+          <input matInput placeholder="Title" name="title" [(ngModel)]="book$.title">
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Author" name="author" [(ngModel)]="book$" required>
+          <input matInput placeholder="Author" name="author" [(ngModel)]="book$.author">
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Publication Date" name="publicationDate" [(ngModel)]="book$"
-                 required>
+          <input matInput placeholder="Year" name="year" [(ngModel)]="book$.year">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Genre" name="genre" [(ngModel)]="book$.genre">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Comment" name="comment" [(ngModel)]="book$.comment">
         </mat-form-field>
         <button mat-raised-button color="primary" type="submit">Save</button>
-        <button mat-raised-button color="accent" type="button" (click)="goBack()">Cancel</button>
       </form>
     </div>
   </ng-template>

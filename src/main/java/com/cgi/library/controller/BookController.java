@@ -42,4 +42,10 @@ public class BookController {
         System.out.println("GET DELETE REQUEST");
         return ResponseEntity.ok("Ok");
     }
+
+    @PutMapping(value = "updateBook")
+    public ResponseEntity<String> updateBook(@RequestBody BookDTO book) {
+        bookService.updateBook(book);
+        return ResponseEntity.ok("UPDATED");
+    }
 }

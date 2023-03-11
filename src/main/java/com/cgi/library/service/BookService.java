@@ -37,4 +37,8 @@ public class BookService {
     public void deleteBook(UUID bookId) {
         bookRepository.deleteById(bookId);
     }
+
+    public void updateBook(BookDTO book) {
+        bookRepository.updateBook(book);
+    }
 }
