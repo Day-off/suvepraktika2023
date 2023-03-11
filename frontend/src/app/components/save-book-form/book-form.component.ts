@@ -43,8 +43,4 @@ export class BookForm{
     this.bookService.saveBook(book).subscribe();
   }
 
-  ngOnInit(): void {
-    console.log('create book');
-  }
-
 }

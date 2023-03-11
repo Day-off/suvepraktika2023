@@ -20,7 +20,7 @@
         </mat-form-field>
       </mat-toolbar>
       <mat-nav-list *ngIf="(books$ | async) as books">
-        <a mat-list-item *ngFor="let book of books.content" [routerLink]="['/books', book.id]">
+        <a mat-list-item *ngFor="let book of books.content">
           <button mat-button type="button" color="warn" (click)="deleteBook(book.id)" style="float: right">Delete</button>
           {{book.title}}
         </a>
