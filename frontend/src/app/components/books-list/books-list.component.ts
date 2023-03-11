@@ -66,7 +66,7 @@ export class BooksListComponent implements OnInit {
       localStorage.setItem('pageRequest', JSON.stringify(this.pageRequest$));
       localStorage.setItem('deleteMode', JSON.stringify(this.showDeleteButtons))
     });
-    this.goBack()
+    location.reload();
   }
 
   goBack(): void {

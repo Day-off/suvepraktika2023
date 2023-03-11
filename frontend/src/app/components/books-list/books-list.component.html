@@ -19,7 +19,7 @@
           </mat-select>
         </mat-form-field>
       </mat-toolbar>
-      <button mat-button color="warn" style="margin-left: auto" (click)="toggleDeleteButtons()">
+      <button mat-button color="warn" style="float: right" (click)="toggleDeleteButtons()">
         {{showDeleteButtons ? 'Cancel' : 'Delete'}}
       </button>
       <mat-nav-list *ngIf="(books$ | async) as books">

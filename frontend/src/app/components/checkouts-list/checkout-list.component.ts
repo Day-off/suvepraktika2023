@@ -18,6 +18,8 @@ export class CheckoutListComponent implements OnInit {
     pageIndex: 0
   };
 
+  showDeleteButtons = false;
+
   constructor(
     private checkoutService: CheckoutService,
   ) {
@@ -40,4 +42,17 @@ export class CheckoutListComponent implements OnInit {
     this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
   }
 
+  toggleDeleteButtons() {
+    this.showDeleteButtons = !this.showDeleteButtons;
+  }
+
+  deleteCheckout(id: string) {
+    this.checkoutService.deleteCheckout(id).subscribe(() => {
+      this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
+      localStorage.setItem('pageRequest', JSON.stringify(this.pageRequest$));
+      localStorage.setItem('deleteMode', JSON.stringify(this.showDeleteButtons))
+    });
+    console.log("DELETE CHECKOUT")
+    location.reload();
+  }
 }
