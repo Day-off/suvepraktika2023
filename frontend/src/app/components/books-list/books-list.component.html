@@ -19,10 +19,18 @@
           </mat-select>
         </mat-form-field>
       </mat-toolbar>
+      <button mat-button color="warn" style="margin-left: auto" (click)="toggleDeleteButtons()">
+        {{showDeleteButtons ? 'Cancel' : 'Delete'}}
+      </button>
       <mat-nav-list *ngIf="(books$ | async) as books">
         <a mat-list-item *ngFor="let book of books.content">
-          <button mat-button type="button" color="warn" (click)="deleteBook(book.id)" style="float: right">Delete</button>
-          {{book.title}}
+          <ng-container *ngIf="!showDeleteButtons; else deleteButton">
+            {{book.title}}
+          </ng-container>
+          <ng-template #deleteButton>
+            <button mat-button type="button" color="warn" (click)="deleteBook(book.id)" style="float: right">Delete</button>
+            {{book.title}}
+          </ng-template>
         </a>
       </mat-nav-list>
       <mat-paginator [length]="(books$ | async)?.totalElements ?? 0"

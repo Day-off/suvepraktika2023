@@ -18,6 +18,7 @@ export class BooksListComponent implements OnInit {
     pageSize: 5,
     pageIndex: 0
   };
+  showDeleteButtons = false;
 
   constructor(
     private router: Router,
@@ -25,9 +26,15 @@ export class BooksListComponent implements OnInit {
   ) {
   }
 
+  toggleDeleteButtons() {
+    this.showDeleteButtons = !this.showDeleteButtons;
+    localStorage.setItem('deleteMode', JSON.stringify(this.showDeleteButtons))
+  }
+
   onSortChange(sortBy: string, direction: 'asc' | 'desc') {
     this.pageRequest$.sort = sortBy;
     this.pageRequest$.direction = direction || 'asc';
+    this.pageRequest$.pageIndex = 0;
     this.books$ = this.bookService.getBooks(this.pageRequest$);
     localStorage.setItem('pageRequest', JSON.stringify(this.pageRequest$));
   }
@@ -42,8 +49,11 @@ export class BooksListComponent implements OnInit {
 
   ngOnInit(): void {
     const savedPageRequest = localStorage.getItem('pageRequest');
+    const deleteMode = localStorage.getItem('deleteMode');
     if (savedPageRequest) {
       this.pageRequest$ = JSON.parse(savedPageRequest);
+    }if (deleteMode) {
+      this.showDeleteButtons = JSON.parse(deleteMode);
     }
 
     this.books$ = this.bookService.getBooks(this.pageRequest$);
@@ -53,6 +63,7 @@ export class BooksListComponent implements OnInit {
     this.bookService.deleteBook(id).subscribe(() => {
       this.books$ = this.bookService.getBooks(this.pageRequest$);
       localStorage.setItem('pageRequest', JSON.stringify(this.pageRequest$));
+      localStorage.setItem('deleteMode', JSON.stringify(this.showDeleteButtons))
     });
     location.reload();
   }
