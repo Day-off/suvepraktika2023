@@ -1,4 +1,29 @@
 <div>
-  <pre>{{ book$ | async | json }}</pre>
-  <button mat-button color="primary" (click)="goBack()">Back</button>
+  <button mat-button color="primary" style="margin-left: auto" (click)="toggleEditButton()">
+    {{editMode ? 'Cancel' : 'Edit'}}
+  </button>
+
+  <ng-container *ngIf="!editMode; else edit">
+    <pre>{{ book$ | async | json }}</pre>
+    <button mat-button color="sucsses" (click)="goBack()">Back</button>
+  </ng-container>
+  <ng-template #edit>
+    <div>
+      <form (ngSubmit)="updateBook()" #bookForm="ngForm">
+        <mat-form-field>
+          <input matInput placeholder="Title" name="title" [(ngModel)]="book$" required>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Author" name="author" [(ngModel)]="book$" required>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Publication Date" name="publicationDate" [(ngModel)]="book$"
+                 required>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Save</button>
+        <button mat-raised-button color="accent" type="button" (click)="goBack()">Cancel</button>
+      </form>
+    </div>
+  </ng-template>
+
 </div>

@@ -13,6 +13,8 @@ import {map, switchMap} from 'rxjs/operators';
 export class BookDetailComponent implements OnInit {
   book$!: Observable<Book>;
 
+  editMode = false;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -28,4 +30,14 @@ export class BookDetailComponent implements OnInit {
 
   goBack(): void {
     window.history.back();  }
+
+  toggleEditButton() {
+    this.editMode = !this.editMode;
+  }
+
+  updateBook() {
+    this.book$.subscribe(book => {
+      this.bookService.updateBook(book)
+    });
+  }
 }

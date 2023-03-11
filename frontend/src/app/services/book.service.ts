@@ -46,4 +46,7 @@ export class BookService {
     return this.http.delete<void>(url, {params});
   }
 
+  updateBook() {
+    console.log("SEND REQUEST")
+  }
 }
