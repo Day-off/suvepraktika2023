@@ -4,6 +4,9 @@ import {Book} from '../../models/book';
 import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {map, switchMap} from 'rxjs/operators';
+import {Checkout} from "../../models/checkout";
+import {CheckoutService} from "../../services/checkout.service";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-book-detail',
@@ -27,11 +30,14 @@ export class BookDetailComponent implements OnInit {
 
 
   editMode = false;
+  checkoutMode = false;
 
 
   constructor(
     private route: ActivatedRoute,
+    private checkoutService: CheckoutService,
     private bookService: BookService,
+    // private datePipe: DatePipe
   ) {
   }
 
@@ -46,15 +52,32 @@ export class BookDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    window.history.back();  }
+    window.history.back();
+  }
 
   toggleEditButton() {
     this.editMode = !this.editMode;
+    this.checkoutMode = false;
+    console.log("edit="+this.editMode)
+    console.log("checkout="+this.checkoutMode)
   }
 
   updateBook(book: Book) {
     console.log(book);
-   this.bookService.updateBook(book).subscribe();
-   this.goBack()
+    this.bookService.updateBook(book).subscribe();
+    this.goBack()
+  }
+
+  toggleCheckoutButton() {
+    this.checkoutMode = !this.checkoutMode;
+    this.editMode = false;
+    console.log("edit="+this.editMode)
+    console.log("checkout="+this.checkoutMode)
+  }
+
+  checkoutBook(checkout: Checkout) {
+    checkout.checkedOutDate = new Date();
+    console.log(checkout)
+    this.checkoutService.saveCheckout(checkout).subscribe();
   }
 }

@@ -2,12 +2,37 @@
   <button mat-button color="primary" style="margin-left: auto" (click)="toggleEditButton()">
     {{editMode ? 'Cancel' : 'Edit'}}
   </button>
+  <button mat-button color="accent" style="margin-left: auto" (click)="toggleCheckoutButton()">
+    {{checkoutMode ? 'Cancel' : 'Checkout'}}
+  </button>
 
-  <ng-container *ngIf="!editMode; else edit">
+  <ng-container *ngIf="!editMode && !checkoutMode;">
     <pre>{{ viewBook$ | async | json }}</pre>
     <button mat-button color="sucsses" (click)="goBack()">Back</button>
   </ng-container>
-  <ng-template #edit>
+
+  <ng-container *ngIf="checkoutMode">
+    <div>
+      <form #checkoutForm="ngForm" (submit)="checkoutBook(checkoutForm.value)">
+        <mat-form-field>
+          <input matInput placeholder="First Name" name="borrowerFirstName" ngModel required>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Last Name" name="borrowerLastName" ngModel required>
+        </mat-form-field>
+        <input type="hidden" name="borrowedBook" [(ngModel)]="book$">
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker" placeholder="Due Date" name="dueDate" ngModel required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+
+        <button mat-raised-button color="primary" type="submit">Save</button>
+      </form>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="editMode">
     <div>
       <form #bookForm="ngForm" (submit)="updateBook(bookForm.value)">
         <input type="hidden" name="id" [(ngModel)]="book$.id">
@@ -29,6 +54,6 @@
         <button mat-raised-button color="primary" type="submit">Save</button>
       </form>
     </div>
-  </ng-template>
+  </ng-container>
 
 </div>

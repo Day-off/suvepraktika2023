@@ -13,6 +13,7 @@ public class CheckOut {
 
     @Id
     @Column
+    @GeneratedValue(generator = "uuid2")
     @Type(type="uuid-char")
     private UUID id;
 

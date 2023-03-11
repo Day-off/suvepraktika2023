@@ -46,6 +46,7 @@ public class BookController {
     @PutMapping(value = "updateBook")
     public ResponseEntity<String> updateBook(@RequestBody BookDTO book) {
         bookService.updateBook(book);
+        System.out.println("UPDATE");
         return ResponseEntity.ok("UPDATED");
     }
 }
