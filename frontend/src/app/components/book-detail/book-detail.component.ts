@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { BookService } from '../../services/book.service';
-import { Book } from '../../models/book';
-import { Observable } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
+import {BookService} from '../../services/book.service';
+import {Book} from '../../models/book';
+import {Observable} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
+import {map, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-book-detail',
@@ -26,4 +26,6 @@ export class BookDetailComponent implements OnInit {
       .pipe(switchMap(id => this.bookService.getBook(id)))
   }
 
+  goBack(): void {
+    window.history.back();  }
 }
