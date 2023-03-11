@@ -24,10 +24,10 @@
       </button>
       <mat-nav-list *ngIf="(books$ | async) as books">
         <a mat-list-item *ngFor="let book of books.content">
-          <ng-container *ngIf="!showDeleteButtons; else deleteButton">
+          <ng-container *ngIf="!showDeleteButtons; else deleteButtons">
             <a [routerLink]="['/books', book.id]">{{book.title}}</a>
           </ng-container>
-          <ng-template #deleteButton>
+          <ng-template #deleteButtons>
             <button mat-button type="button" color="warn" (click)="deleteBook(book.id)" style="float: right">Delete
             </button>
             {{book.title}}

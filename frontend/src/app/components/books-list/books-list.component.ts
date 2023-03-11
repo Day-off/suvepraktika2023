@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {Page, PageRequest} from '../../models/page';
 import {Book} from '../../models/book';
 import {PageEvent} from "@angular/material/paginator";
-import { Router} from "@angular/router";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-books-list',
@@ -52,7 +52,8 @@ export class BooksListComponent implements OnInit {
     const deleteMode = localStorage.getItem('deleteMode');
     if (savedPageRequest) {
       this.pageRequest$ = JSON.parse(savedPageRequest);
-    }if (deleteMode) {
+    }
+    if (deleteMode) {
       this.showDeleteButtons = JSON.parse(deleteMode);
     }
 
@@ -65,6 +66,12 @@ export class BooksListComponent implements OnInit {
       localStorage.setItem('pageRequest', JSON.stringify(this.pageRequest$));
       localStorage.setItem('deleteMode', JSON.stringify(this.showDeleteButtons))
     });
-    location.reload();
+    this.goBack()
   }
+
+  goBack(): void {
+    window.history.back();
+  }
+
+
 }

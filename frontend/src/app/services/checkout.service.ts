@@ -29,4 +29,11 @@ export class CheckoutService{
     const params = new HttpParams().set('checkOutId', checkoutId);
     return this.http.get<Checkout>(url, {params});
   }
+
+  saveCheckout(checkout: Checkout): Observable<void> {
+    console.log("SEND REQUEST")
+    const url = this.baseUrl + '/checkout';
+    console.log(checkout)
+    return this.http.post<void>(url, checkout);
+  }
 }
