@@ -39,7 +39,8 @@ export class BookForm{
   saveBook(book: Book): void {
     book.added = this.getCurrentDate();
     book.status = "AVAILABLE"
-    this.bookService.saveBook(book);
+    console.log('SAVE');
+    this.bookService.saveBook(book).subscribe();
   }
 
   ngOnInit(): void {

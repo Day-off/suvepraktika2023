@@ -1,31 +1,22 @@
 <form #bookForm="ngForm" (submit)="saveBook(bookForm.value)">
   <input type="hidden" name="id" value=null>
+  <input type="hidden" name="checkOutCount" value="0">
   <input type="hidden" name="dueDate" value=null>
-  <input type="hidden" name="checkOutCount" value=0>
 
-  <mat-form-field>
-    <input matInput placeholder="Title" name="title" ngModel required>
-  </mat-form-field>
+  <label>Title:</label>
+  <input type="text" placeholder="Title" name="title" ngModel required>
 
-  <mat-form-field>
-    <input matInput placeholder="Author" name="author" ngModel required>
-  </mat-form-field>
+  <label>Author:</label>
+  <input type="text" placeholder="Author" name="author" ngModel required>
 
-  <mat-form-field>
-    <input matInput placeholder="Genre" name="genre" ngModel required>
-  </mat-form-field>
+  <label>Genre:</label>
+  <input type="text" placeholder="Genre" name="genre" ngModel required>
 
-  <mat-form-field>
-    <input matInput placeholder="Year" name="year" ngModel type="number" required>
-  </mat-form-field>
+  <label>Year:</label>
+  <input placeholder="Year" name="year" ngModel type="number" required>
 
-  <mat-form-field>
-    <input matInput placeholder="Comment" name="comment" ngModel>
-  </mat-form-field>
-  <mat-form-field>
-  </mat-form-field>
+  <label>Comment:</label>
+  <input type="text" placeholder="Comment" name="comment" ngModel>
 
-  <button mat-raised-button color="primary" type="submit" [disabled]="!bookForm.valid">
-    Save
-  </button>
+  <button type="submit" [disabled]="!bookForm.valid">Save</button>
 </form>
