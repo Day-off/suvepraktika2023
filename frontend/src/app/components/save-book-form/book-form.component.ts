@@ -1,19 +1,32 @@
-import { Component} from '@angular/core';
+import {Component} from '@angular/core';
 import {BookService} from "../../services/book.service";
 import {Book} from "../../models/book";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-save-book-form',
   templateUrl: './book-form.html',
   styleUrls: ['./book-form.scss']
 })
-export class BookForm {
+export class BookForm{
 
+  book: Book = {
+    id: '',
+    title: '',
+    author: '',
+    genre: '',
+    year: 0,
+    added: '',
+    checkOutCount: 0,
+    status: 'AVAILABLE',
+    dueDate: '',
+    comment: ''
+  };
 
   constructor(
-    private bookService: BookService,
-  ) {
-  }
+    private route: ActivatedRoute,
+    private bookService: BookService
+  ) {}
 
   getCurrentDate(): string {
     const today = new Date();
@@ -23,15 +36,14 @@ export class BookForm {
     return `${year}-${month}-${day}`;
   }
 
-  saveBook(book: Book) {
-    console.log("SAVE BOOK")
+  saveBook(book: Book): void {
     book.added = this.getCurrentDate();
-    book.status = "AVAILABLE";
-    book.dueDate = '';
-    book.checkOutCount = 0;
-    console.log(book)
-    return this.bookService.saveBook(book);
+    book.status = "AVAILABLE"
+    this.bookService.saveBook(book);
   }
 
+  ngOnInit(): void {
+    console.log('create book');
+  }
 
 }

@@ -12,9 +12,8 @@ import {CheckoutDetailComponent} from './components/checkout-detail/checkout-det
 import {BookForm} from './components/save-book-form/book-form.component'
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from "@angular/forms";
-import {MatInputModule} from "@angular/material/input";
-import {MatFormFieldModule} from "@angular/material/form-field";
-
+import { MatInputModule } from '@angular/material/input'
+import { MatFormFieldModule} from "@angular/material/form-field";
 @NgModule({
   declarations: [
     AppComponent,

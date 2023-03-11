@@ -35,6 +35,7 @@ export class BookService {
   saveBook(book: Book): Observable<void> {
     console.log("SEND REQUEST")
     const url = this.baseUrl + '/saveBook';
+    console.log(book)
     return this.http.post<void>(url, book);
   }
 
