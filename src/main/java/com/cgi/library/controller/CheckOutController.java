@@ -37,4 +37,10 @@ public class CheckOutController {
         checkOutService.deleteCheckOut(checkOutId);
         return ResponseEntity.ok("DELETED");
     }
+
+    @PutMapping(value = "checkout")
+    public ResponseEntity<String> updateCheckOut(@RequestBody CheckOutDTO checkOutDTO) {
+        checkOutService.updateCheckOut(checkOutDTO);
+        return ResponseEntity.ok("UPDATED");
+    }
 }

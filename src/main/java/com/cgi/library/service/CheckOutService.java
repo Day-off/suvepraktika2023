@@ -35,4 +35,9 @@ public class CheckOutService {
     public void deleteCheckOut(UUID checkOutId) {
         checkOutRepository.deleteById(checkOutId);
     }
+
+    public void updateCheckOut(CheckOutDTO checkOutDTO) {
+        checkOutRepository.updateCheckout(checkOutDTO
+        );
+    }
 }

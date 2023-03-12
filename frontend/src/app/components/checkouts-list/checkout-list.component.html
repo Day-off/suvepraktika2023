@@ -27,7 +27,7 @@
         <a mat-list-item *ngFor="let checkout of checkouts.content">
           <ng-container *ngIf="!showDeleteButtons; else deleteButtons">
             <a
-              [routerLink]="['/checkout', checkout.id]">{{checkout.borrowedBook.title + " " + checkout.dueDate}}
+              [routerLink]="['/checkouts', checkout.id]">{{checkout.borrowedBook.title + " " + checkout.dueDate}}
             </a>
           </ng-container>
           <ng-template #deleteButtons>

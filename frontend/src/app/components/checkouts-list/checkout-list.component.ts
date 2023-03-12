@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
 import {Page, PageRequest} from '../../models/page';
 import {Checkout} from "../../models/checkout";
 import {CheckoutService} from "../../services/checkout.service";
@@ -24,9 +24,13 @@ export class CheckoutListComponent implements OnInit {
     private checkoutService: CheckoutService,
   ) {
   }
+
   onSortChange(sortBy: string, direction: 'asc' | 'desc') {
     this.pageRequest$.sort = sortBy;
     this.pageRequest$.direction = direction || 'asc';
+    this.pageRequest$.pageIndex = 0;
+    localStorage.setItem('pageRequest', JSON.stringify(this.pageRequest$));
+
     this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
   }
 
@@ -34,16 +38,29 @@ export class CheckoutListComponent implements OnInit {
     this.pageRequest$.pageIndex = pageEvent.pageIndex;
     this.pageRequest$.pageSize = pageEvent.pageSize;
 
+
     this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
+    localStorage.setItem('pageRequest', JSON.stringify(this.pageRequest$));
   }
 
 
   ngOnInit(): void {
+    const savedPageRequest = localStorage.getItem('pageRequest');
+    const deleteMode = localStorage.getItem('deleteMode');
+    if (savedPageRequest) {
+      this.pageRequest$ = JSON.parse(savedPageRequest);
+    }
+    if (deleteMode) {
+      this.showDeleteButtons = JSON.parse(deleteMode);
+    }
+
     this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
   }
 
   toggleDeleteButtons() {
     this.showDeleteButtons = !this.showDeleteButtons;
+    localStorage.setItem('deleteMode', JSON.stringify(this.showDeleteButtons))
+
   }
 
   deleteCheckout(id: string) {
