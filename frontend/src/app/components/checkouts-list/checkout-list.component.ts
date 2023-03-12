@@ -4,6 +4,7 @@ import {Page, PageRequest} from '../../models/page';
 import {Checkout} from "../../models/checkout";
 import {CheckoutService} from "../../services/checkout.service";
 import {PageEvent} from "@angular/material/paginator";
+import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-checkout-list',
@@ -22,6 +23,7 @@ export class CheckoutListComponent implements OnInit {
 
   constructor(
     private checkoutService: CheckoutService,
+    private router: Router
   ) {
   }
 
@@ -55,6 +57,11 @@ export class CheckoutListComponent implements OnInit {
     }
 
     this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        localStorage.clear();
+      }
+    });
   }
 
   toggleDeleteButtons() {

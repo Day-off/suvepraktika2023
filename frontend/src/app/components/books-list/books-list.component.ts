@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {Page, PageRequest} from '../../models/page';
 import {Book} from '../../models/book';
 import {PageEvent} from "@angular/material/paginator";
-import {Router} from "@angular/router";
+import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-books-list',
@@ -58,6 +58,12 @@ export class BooksListComponent implements OnInit {
     }
 
     this.books$ = this.bookService.getBooks(this.pageRequest$);
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        localStorage.clear();
+      }
+    });
   }
 
   deleteBook(id: string): void {

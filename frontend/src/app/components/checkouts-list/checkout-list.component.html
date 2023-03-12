@@ -6,7 +6,7 @@
       <mat-toolbar>
         <mat-form-field appearance="fill">
           <mat-label>Sort By</mat-label>
-          <mat-select #sort (selectionChange)="onSortChange($event.value, direction.value)">
+          <mat-select #sort (selectionChange)="onSortChange($event.value, direction.value)" value="" name="Default">
             <mat-option value="borrowedBook.title">Title</mat-option>
             <mat-option value="dueDate">dueDate</mat-option>
             <mat-option value="">Default</mat-option>
@@ -14,7 +14,7 @@
         </mat-form-field>
         <mat-form-field appearance="fill">
           <mat-label>Direction</mat-label>
-          <mat-select #direction (selectionChange)="onSortChange(sort.value, $event.value)">
+          <mat-select #direction (selectionChange)="onSortChange(sort.value, $event.value)" name="Ascending">
             <mat-option value="asc">Ascending</mat-option>
             <mat-option value="desc">Descending</mat-option>
           </mat-select>
