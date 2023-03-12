@@ -1,10 +1,10 @@
-import {Component, OnInit, ViewChild,ElementRef} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {BookService} from '../../services/book.service';
 import {Observable} from 'rxjs';
-import {Page, PageRequest} from '../../models/page';
+import {Page, PageRequest, SortDirection} from '../../models/page';
 import {Book} from '../../models/book';
 import {PageEvent} from "@angular/material/paginator";
-import {NavigationEnd, Router} from "@angular/router";
+import {ActivatedRoute,  Router} from "@angular/router";
 
 @Component({
   selector: 'app-books-list',
@@ -21,10 +21,12 @@ export class BooksListComponent implements OnInit {
   showDeleteButtons = false;
   @ViewChild('searchInput') searchInput: ElementRef | undefined;
 
-  searchQuery =''
+  searchQuery = '';
+  previousInput = '';
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private bookService: BookService,
   ) {
   }
@@ -38,36 +40,20 @@ export class BooksListComponent implements OnInit {
     this.pageRequest$.sort = sortBy;
     this.pageRequest$.direction = direction || 'asc';
     this.pageRequest$.pageIndex = 0;
+    this.link();
     this.onSearch()
-    localStorage.setItem('pageRequest', JSON.stringify(this.pageRequest$));
   }
 
   onPageChange(pageEvent: PageEvent) {
     this.pageRequest$.pageIndex = pageEvent.pageIndex;
     this.pageRequest$.pageSize = pageEvent.pageSize;
-
+    console.log(this.searchQuery)
+    this.link();
     this.onSearch()
-    localStorage.setItem('pageRequest', JSON.stringify(this.pageRequest$));
   }
 
   ngOnInit(): void {
-    const savedPageRequest = localStorage.getItem('pageRequest');
-    const deleteMode = localStorage.getItem('deleteMode');
-    if (savedPageRequest) {
-      this.pageRequest$ = JSON.parse(savedPageRequest);
-    }
-    if (deleteMode) {
-      this.showDeleteButtons = JSON.parse(deleteMode);
-    }
-
-    this.books$ = this.bookService.getBooks(this.pageRequest$);
-
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        localStorage.removeItem('pageRequest');
-        localStorage.removeItem('deleteMode');
-      }
-    });
+    this.onSearch();
   }
 
   deleteBook(id: string): void {
@@ -76,7 +62,7 @@ export class BooksListComponent implements OnInit {
       localStorage.setItem('pageRequest', JSON.stringify(this.pageRequest$));
       localStorage.setItem('deleteMode', JSON.stringify(this.showDeleteButtons))
     });
-    this.onSearch()
+    location.reload();
   }
 
 
@@ -86,10 +72,35 @@ export class BooksListComponent implements OnInit {
   }
 
   onSearchButtonClick() {
-    this.pageRequest$.pageIndex =0;
-    this.books$ = this.bookService.search(this.pageRequest$, this.searchQuery);
+    this.link();
+    this.onSearch();
   }
+
+  link(): void {
+    this.router.navigate(['/books', {
+      page: this.pageRequest$.pageIndex,
+      size: this.pageRequest$.pageSize,
+      sort: this.pageRequest$.sort,
+      direction: this.pageRequest$.direction,
+      input: this.searchQuery
+    }]);
+  }
+
   onSearch() {
-    this.books$ = this.bookService.search(this.pageRequest$, this.searchQuery);
+    this.route.paramMap.subscribe(params => {
+      const input = params.get('input') || '';
+      const page = params.get('page') || 0;
+      const size = params.get('size') || 5;
+      const sort = params.get('sort') || '';
+      const direction = params.get('direction') || "asc";
+      this.searchQuery = input;
+      this.pageRequest$.pageIndex = Number(page);
+      this.pageRequest$.pageSize = Number(size);
+      this.pageRequest$.sort = sort;
+      this.pageRequest$.direction = direction as SortDirection;
+      console.log(input)
+      console.log(page)
+      this.books$ = this.bookService.search(this.pageRequest$, input);
+    });
   }
 }

@@ -54,7 +54,6 @@ export class BookService {
   }
 
   search(filter: Partial<PageRequest>, input: string): Observable<Page<Book>> {
-    console.log("SEARCH")
     const url = this.baseUrl + '/search';
     const params = RestUtil.buildParamsFromPageRequest(filter).append("input", input);
     return this.http.get<Page<Book>>(url, {params});
