@@ -34,7 +34,7 @@
             <button mat-button type="button" color="warn" (click)="deleteCheckout(checkout.id)" style="float: right">
               Delete
             </button>
-            {{checkout.borrowedBook.title + " Due date: " + checkout.dueDate}}
+            {{checkout.borrowedBook.title + " " + checkout.dueDate}}
           </ng-template>
         </a>
       </mat-nav-list>
