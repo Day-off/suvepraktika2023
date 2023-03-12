@@ -25,26 +25,27 @@ export class CheckoutService{
   }
 
   getCheckout(checkoutId: string): Observable<Checkout> {
+    console.log("GET")
     const url = this.baseUrl + '/getCheckout';
     const params = new HttpParams().set('checkOutId', checkoutId);
     return this.http.get<Checkout>(url, {params});
   }
 
   saveCheckout(checkout: Checkout): Observable<HttpResponse<any>> {
-    console.log("SEND REQUEST")
+    console.log("SAVE")
     const url = this.baseUrl + '/checkout';
     console.log(checkout)
     return this.http.post<HttpResponse<any>>(url, checkout);
   }
   deleteCheckout(id: string): Observable<void> {
-    console.log("SEND REQUEST")
+    console.log("DELETE")
     const url = this.baseUrl + '/checkout';
     const params = new HttpParams().set('checkOutId', id);
     return this.http.delete<void>(url, {params});
   }
 
   updateCheckout(checkout: Checkout): Observable<void> {
-    console.log("SEND REQUEST")
+    console.log("UPDATE")
     const url = this.baseUrl + '/checkout';
     console.log(checkout)
     return this.http.put<void>(url, checkout);

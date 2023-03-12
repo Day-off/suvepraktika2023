@@ -5,6 +5,7 @@ import {Checkout} from "../../models/checkout";
 import {CheckoutService} from "../../services/checkout.service";
 import {PageEvent} from "@angular/material/paginator";
 import {ActivatedRoute, Router} from "@angular/router";
+import {BookService} from "../../services/book.service";
 
 @Component({
   selector: 'app-checkout-list',
@@ -20,9 +21,11 @@ export class CheckoutListComponent implements OnInit {
   };
 
   showDeleteButtons = false;
+  finalData: Checkout | undefined;
 
   constructor(
     private checkoutService: CheckoutService,
+    private bookService: BookService,
     private router: Router,
     private route: ActivatedRoute,
   ) {
@@ -44,7 +47,7 @@ export class CheckoutListComponent implements OnInit {
     this.pageRequest$.pageIndex = 0;
     this.link();
     this.onSearch();
-    }
+  }
 
   onPageChange(pageEvent: PageEvent) {
     this.pageRequest$.pageIndex = pageEvent.pageIndex;
@@ -65,8 +68,20 @@ export class CheckoutListComponent implements OnInit {
   }
 
   deleteCheckout(id: string) {
-    this.checkoutService.deleteCheckout(id).subscribe(() => {
-      this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
+    this.checkoutService.getCheckout(id).subscribe((checkout) => {
+      if (checkout) {
+        const ref = checkout;
+        ref.borrowedBook.status = "AVAILABLE";
+        ref.borrowedBook.dueDate = '';
+        console.log("Update: "+ref.borrowedBook.status);
+        this.bookService.updateBook(ref.borrowedBook).subscribe(() => {
+          this.checkoutService.deleteCheckout(id).subscribe(() => {
+            this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
+          });
+        },(error)=>{this.checkoutService.deleteCheckout(id).subscribe(() => {
+          this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
+        });});
+      }
     });
     location.reload();
   }
