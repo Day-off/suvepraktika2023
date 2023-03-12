@@ -7,7 +7,7 @@
 * Checkout sorting by title or author + direction `(done)`
 * Book CRUD implementation `(done)`
 * Checkout CRUD implementation, also when create/delete/update changed book status and due date`(done)`
-* Implement searching for books using freetext criteria  `(done)`
+* Implement searching for books using freetext criteria + you can also sort and change direction of the result  `(done)`
 
 #### Some notes:
  
