@@ -59,6 +59,7 @@ export class CheckoutListComponent implements OnInit {
 
   ngOnInit(): void {
     this.onSearch();
+
   }
 
   toggleDeleteButtons() {
@@ -73,17 +74,20 @@ export class CheckoutListComponent implements OnInit {
         const ref = checkout;
         ref.borrowedBook.status = "AVAILABLE";
         ref.borrowedBook.dueDate = '';
-        console.log("Update: "+ref.borrowedBook.status);
+        console.log("Update: " + ref.borrowedBook.status);
         this.bookService.updateBook(ref.borrowedBook).subscribe(() => {
           this.checkoutService.deleteCheckout(id).subscribe(() => {
             this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
           });
-        },(error)=>{this.checkoutService.deleteCheckout(id).subscribe(() => {
-          this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
-        });});
+          location.reload();
+        }, () => {
+          this.checkoutService.deleteCheckout(id).subscribe(() => {
+            this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
+          });
+          location.reload();
+        });
       }
     });
-    location.reload();
   }
 
   onSearch() {
