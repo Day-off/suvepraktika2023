@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import { Page, PageRequest } from '../models/page';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -30,11 +30,11 @@ export class CheckoutService{
     return this.http.get<Checkout>(url, {params});
   }
 
-  saveCheckout(checkout: Checkout): Observable<void> {
+  saveCheckout(checkout: Checkout): Observable<HttpResponse<any>> {
     console.log("SEND REQUEST")
     const url = this.baseUrl + '/checkout';
     console.log(checkout)
-    return this.http.post<void>(url, checkout);
+    return this.http.post<HttpResponse<any>>(url, checkout);
   }
   deleteCheckout(id: string): Observable<void> {
     console.log("SEND REQUEST")

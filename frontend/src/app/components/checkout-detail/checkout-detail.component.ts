@@ -66,5 +66,6 @@ export class CheckoutDetailComponent implements OnInit {
     console.log(checkout);
     checkout.checkedOutDate = new Date();
     this.checkoutService.updateCheckout(checkout).subscribe();
+    location.reload();
   }
 }

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import {Page, PageRequest} from '../models/page';
 import {Book} from '../models/book';
 import {Observable} from 'rxjs';
@@ -32,11 +32,11 @@ export class BookService {
     return this.http.get<Book>(url, {params});
   }
 
-  saveBook(book: Book): Observable<void> {
+  saveBook(book: Book): Observable<HttpResponse<any>> {
     console.log("SEND REQUEST")
     const url = this.baseUrl + '/saveBook';
     console.log(book)
-    return this.http.post<void>(url, book);
+    return this.http.post<HttpResponse<any>>(url, book);
   }
 
   deleteBook(bookId: string): Observable<void> {

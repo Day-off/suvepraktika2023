@@ -1,14 +1,15 @@
 import {Component} from '@angular/core';
 import {BookService} from "../../services/book.service";
 import {Book} from "../../models/book";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-save-book-form',
   templateUrl: './book-form.html',
   styleUrls: ['./book-form.scss']
 })
-export class BookForm{
+export class BookForm {
 
   book: Book = {
     id: '',
@@ -25,8 +26,10 @@ export class BookForm{
 
   constructor(
     private route: ActivatedRoute,
-    private bookService: BookService
-  ) {}
+    private bookService: BookService,
+    private router: Router
+  ) {
+  }
 
   getCurrentDate(): string {
     const today = new Date();
@@ -40,7 +43,20 @@ export class BookForm{
     book.added = this.getCurrentDate();
     book.status = "AVAILABLE"
     console.log('SAVE');
-    this.bookService.saveBook(book).subscribe();
+    this.bookService.saveBook(book)
+      .subscribe(
+        (response) => {
+          const id = response.body;
+          console.log(`Received bookId: ${id}`);
+          this.router.navigate(['/books', id]);
+        },
+        (error) => {
+          if (error instanceof HttpErrorResponse) {
+            console.log(`Error occurred: ${error.status}, ${error.statusText}`);
+            this.router.navigate(['/books', error.error.text]);
+          }
+        }
+      );
   }
 
 }
