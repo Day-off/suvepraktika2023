@@ -13,7 +13,7 @@
         </mat-form-field>
         <mat-form-field appearance="fill">
           <mat-label>Direction</mat-label>
-          <mat-select #direction (selectionChange)="onSortChange(sort.value, $event.value)" name="Ascending">
+          <mat-select #direction (selectionChange)="onSortChange(sort.value, $event.value)" name="Ascending" value="asc">
             <mat-option value="asc">Ascending</mat-option>
             <mat-option value="desc">Descending</mat-option>
           </mat-select>

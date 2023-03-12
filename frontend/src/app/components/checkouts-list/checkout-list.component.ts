@@ -59,7 +59,8 @@ export class CheckoutListComponent implements OnInit {
     this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        localStorage.clear();
+        localStorage.removeItem('pageRequest');
+        localStorage.removeItem('deleteMode');
       }
     });
   }

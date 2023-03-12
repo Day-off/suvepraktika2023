@@ -61,7 +61,8 @@ export class BooksListComponent implements OnInit {
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        localStorage.clear();
+        localStorage.removeItem('pageRequest');
+        localStorage.removeItem('deleteMode');
       }
     });
   }
