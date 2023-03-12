@@ -57,7 +57,7 @@ If you have any questions, please reach out without hesitation. Best of luck!
 * Using backend api endpoint /getBooks, implement table of books view `(It was done by task developer)`
 * Using backend api endpoint /getCheckouts, also implement the checkouts view. Suppport paging and sorting for both views `(done)`
 * Implement individual book and checkout view, support basic CRUD operations, implement checking out and returning books `(done)`
-* Implement searching for books using freetext criteria
+* Implement searching for books using freetext criteria  `(done)`
 * Implement filtering for books by status
 * Implement saving / displaying favorite books for current user (you can use localStorage if you don't want to make back-end changes)
 * Add modal confirmation dialogues when deleting or checking out books

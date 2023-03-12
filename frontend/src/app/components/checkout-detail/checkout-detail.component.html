@@ -10,6 +10,7 @@
     <div>
       <form #checkoutForm="ngForm" (submit)="updateCheckout(checkoutForm.value)">
         <input type="hidden" name="id" [(ngModel)]="checkoutReference.id">
+        <input type="hidden" name="borrowedBook" [(ngModel)]="checkoutReference.borrowedBook">
         <mat-form-field>
           <input matInput placeholder="First Name" name="borrowerFirstName" [(ngModel)]="checkoutReference.borrowerFirstName">
         </mat-form-field>

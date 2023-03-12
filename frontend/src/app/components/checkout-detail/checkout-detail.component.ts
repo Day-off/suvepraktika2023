@@ -5,6 +5,8 @@ import {map, switchMap} from 'rxjs/operators';
 import {Checkout} from "../../models/checkout";
 import {CheckoutService} from "../../services/checkout.service";
 import {Book} from "../../models/book";
+import {formatDate} from "@angular/common";
+import {BookService} from "../../services/book.service";
 
 @Component({
   selector: 'app-checkout-detail',
@@ -41,6 +43,7 @@ export class CheckoutDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private checkoutService: CheckoutService,
+    private bookService: BookService
   ) {
   }
 
@@ -65,6 +68,8 @@ export class CheckoutDetailComponent implements OnInit {
   updateCheckout(checkout: Checkout) {
     console.log(checkout);
     checkout.checkedOutDate = new Date();
+    checkout.borrowedBook.dueDate = formatDate(checkout.dueDate, 'yyyy-MM-dd', 'en-US');
+    this.bookService.updateBook(checkout.borrowedBook).subscribe();
     this.checkoutService.updateCheckout(checkout).subscribe();
     location.reload();
   }

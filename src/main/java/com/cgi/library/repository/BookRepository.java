@@ -20,6 +20,14 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Book b SET b.title = :#{#bookDto.title}, b.author = :#{#bookDto.author}, b.genre = :#{#bookDto.genre}, b.year = :#{#bookDto.year}, b.comment = :#{#bookDto.comment} WHERE b.id = :#{#bookDto.id}")
+    @Query("UPDATE Book b SET " +
+            "b.title = :#{#bookDto.title}, " +
+            "b.author = :#{#bookDto.author}, " +
+            "b.genre = :#{#bookDto.genre}, " +
+            "b.year = :#{#bookDto.year}, " +
+            "b.comment = :#{#bookDto.comment}, " +
+            "b.status =:#{#bookDto.status}, " +
+            "b.dueDate =:#{#bookDto.dueDate} " +
+            "WHERE b.id = :#{#bookDto.id}")
     void updateBook(@Param("bookDto") BookDTO bookDto);
 }

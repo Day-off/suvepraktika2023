@@ -7,6 +7,7 @@ import {map, switchMap} from 'rxjs/operators';
 import {Checkout} from "../../models/checkout";
 import {CheckoutService} from "../../services/checkout.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-book-detail',
@@ -73,6 +74,10 @@ export class BookDetailComponent implements OnInit {
 
   checkoutBook(checkout: Checkout) {
     checkout.checkedOutDate = new Date();
+    checkout.borrowedBook.status = "BORROWED";
+    checkout.borrowedBook.dueDate = formatDate(checkout.dueDate, 'yyyy-MM-dd', 'en-US');
+    console.log(checkout.borrowedBook);
+    this.bookService.updateBook(checkout.borrowedBook).subscribe();
     console.log(checkout)
     this.checkoutService.saveCheckout(checkout).subscribe(
       (response) => {
