@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Page, PageRequest} from '../../models/page';
+import {Page, PageRequest, SortDirection} from '../../models/page';
 import {Checkout} from "../../models/checkout";
 import {CheckoutService} from "../../services/checkout.service";
 import {PageEvent} from "@angular/material/paginator";
-import {NavigationEnd, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-checkout-list',
@@ -23,46 +23,39 @@ export class CheckoutListComponent implements OnInit {
 
   constructor(
     private checkoutService: CheckoutService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
   ) {
   }
+
+  link(): void {
+    this.router.navigate(['/checkouts', {
+      page: this.pageRequest$.pageIndex,
+      size: this.pageRequest$.pageSize,
+      sort: this.pageRequest$.sort,
+      direction: this.pageRequest$.direction,
+    }]);
+  }
+
 
   onSortChange(sortBy: string, direction: 'asc' | 'desc') {
     this.pageRequest$.sort = sortBy;
     this.pageRequest$.direction = direction || 'asc';
     this.pageRequest$.pageIndex = 0;
-    localStorage.setItem('pageRequest', JSON.stringify(this.pageRequest$));
-
-    this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
-  }
+    this.link();
+    this.onSearch();
+    }
 
   onPageChange(pageEvent: PageEvent) {
     this.pageRequest$.pageIndex = pageEvent.pageIndex;
     this.pageRequest$.pageSize = pageEvent.pageSize;
-
-
-    this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
-    localStorage.setItem('pageRequest', JSON.stringify(this.pageRequest$));
+    this.link();
+    this.onSearch();
   }
 
 
   ngOnInit(): void {
-    const savedPageRequest = localStorage.getItem('pageRequest');
-    const deleteMode = localStorage.getItem('deleteMode');
-    if (savedPageRequest) {
-      this.pageRequest$ = JSON.parse(savedPageRequest);
-    }
-    if (deleteMode) {
-      this.showDeleteButtons = JSON.parse(deleteMode);
-    }
-
-    this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        localStorage.removeItem('pageRequest');
-        localStorage.removeItem('deleteMode');
-      }
-    });
+    this.onSearch();
   }
 
   toggleDeleteButtons() {
@@ -74,10 +67,21 @@ export class CheckoutListComponent implements OnInit {
   deleteCheckout(id: string) {
     this.checkoutService.deleteCheckout(id).subscribe(() => {
       this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
-      localStorage.setItem('pageRequest', JSON.stringify(this.pageRequest$));
-      localStorage.setItem('deleteMode', JSON.stringify(this.showDeleteButtons))
     });
-    console.log("DELETE CHECKOUT")
     location.reload();
+  }
+
+  onSearch() {
+    this.route.paramMap.subscribe(params => {
+      const page = params.get('page') || 0;
+      const size = params.get('size') || 5;
+      const sort = params.get('sort') || '';
+      const direction = params.get('direction') || "asc";
+      this.pageRequest$.pageIndex = Number(page);
+      this.pageRequest$.pageSize = Number(size);
+      this.pageRequest$.sort = sort;
+      this.pageRequest$.direction = direction as SortDirection;
+      this.checkouts$ = this.checkoutService.getCheckOuts(this.pageRequest$);
+    });
   }
 }
