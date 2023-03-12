@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Page, PageRequest } from '../models/page';
-import { Book } from '../models/book';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { RestUtil } from './rest-util';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Page, PageRequest} from '../models/page';
+import {Book} from '../models/book';
+import {Observable} from 'rxjs';
+import {environment} from 'src/environments/environment';
+import {RestUtil} from './rest-util';
 
 @Injectable({
   providedIn: 'root'
@@ -51,5 +51,12 @@ export class BookService {
     const url = this.baseUrl + '/updateBook';
     console.log(book)
     return this.http.put<void>(url, book);
+  }
+
+  search(filter: Partial<PageRequest>, input: string): Observable<Page<Book>> {
+    console.log("SEARCH")
+    const url = this.baseUrl + '/search';
+    const params = RestUtil.buildParamsFromPageRequest(filter).append("input", input);
+    return this.http.get<Page<Book>>(url, {params});
   }
 }

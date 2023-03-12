@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild,ElementRef} from '@angular/core';
 import {BookService} from '../../services/book.service';
 import {Observable} from 'rxjs';
 import {Page, PageRequest} from '../../models/page';
@@ -19,6 +19,9 @@ export class BooksListComponent implements OnInit {
     pageIndex: 0
   };
   showDeleteButtons = false;
+  @ViewChild('searchInput') searchInput: ElementRef | undefined;
+
+  searchQuery =''
 
   constructor(
     private router: Router,
@@ -35,7 +38,7 @@ export class BooksListComponent implements OnInit {
     this.pageRequest$.sort = sortBy;
     this.pageRequest$.direction = direction || 'asc';
     this.pageRequest$.pageIndex = 0;
-    this.books$ = this.bookService.getBooks(this.pageRequest$);
+    this.onSearch()
     localStorage.setItem('pageRequest', JSON.stringify(this.pageRequest$));
   }
 
@@ -43,7 +46,7 @@ export class BooksListComponent implements OnInit {
     this.pageRequest$.pageIndex = pageEvent.pageIndex;
     this.pageRequest$.pageSize = pageEvent.pageSize;
 
-    this.books$ = this.bookService.getBooks(this.pageRequest$);
+    this.onSearch()
     localStorage.setItem('pageRequest', JSON.stringify(this.pageRequest$));
   }
 
@@ -73,12 +76,20 @@ export class BooksListComponent implements OnInit {
       localStorage.setItem('pageRequest', JSON.stringify(this.pageRequest$));
       localStorage.setItem('deleteMode', JSON.stringify(this.showDeleteButtons))
     });
-    location.reload();
-  }
-
-  goBack(): void {
-    window.history.back();
+    this.onSearch()
   }
 
 
+  onSearchInputChange() {
+    // @ts-ignore
+    this.searchQuery = this.searchInput.nativeElement.value;
+  }
+
+  onSearchButtonClick() {
+    this.pageRequest$.pageIndex =0;
+    this.books$ = this.bookService.search(this.pageRequest$, this.searchQuery);
+  }
+  onSearch() {
+    this.books$ = this.bookService.search(this.pageRequest$, this.searchQuery);
+  }
 }

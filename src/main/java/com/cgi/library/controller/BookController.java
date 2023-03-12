@@ -23,6 +23,12 @@ public class BookController {
         return ResponseEntity.ok(bookService.getBooks(pageable));
     }
 
+    @GetMapping(value = "search")
+    public ResponseEntity<Page<BookDTO>> search(@RequestParam(value = "input") String input,Pageable pageable) {
+        System.out.println("SEARCH");
+        return ResponseEntity.ok(bookService.search(pageable, input));
+    }
+
     @GetMapping(value = "getBook")
     public ResponseEntity<BookDTO> getBook(@RequestParam(value = "bookId") UUID bookId) {
         System.out.println("GET BOOK");

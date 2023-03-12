@@ -41,4 +41,9 @@ public class BookService {
     public void updateBook(BookDTO book) {
         bookRepository.updateBook(book);
     }
+
+    public Page<BookDTO> search(Pageable pageable, String input) {
+        ModelMapper modelMapper = ModelMapperFactory.getMapper();
+        return bookRepository.findAllByTitleContainingIgnoreCase(pageable, input).map(book -> modelMapper.map(book, BookDTO.class));
+    }
 }

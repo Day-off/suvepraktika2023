@@ -18,6 +18,13 @@
             <mat-option value="desc">Descending</mat-option>
           </mat-select>
         </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Search</mat-label>
+          <input matInput #searchInput (input)="onSearchInputChange()" [value]="searchQuery">
+        </mat-form-field>
+        <button mat-icon-button (click)="onSearchButtonClick()">
+          <mat-icon>search</mat-icon>
+        </button>
       </mat-toolbar>
       <button mat-button color="warn" style="float: right" (click)="toggleDeleteButtons()">
         {{showDeleteButtons ? 'Cancel' : 'Delete'}}
