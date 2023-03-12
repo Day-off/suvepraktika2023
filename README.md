@@ -9,6 +9,10 @@
 * Checkout CRUD implementation, also when create/delete/update changed book status and due date`(done)`
 * Implement searching for books using freetext criteria  `(done)`
 
+#### Some notes:
+ 
+ - to get accesses to edit book or create checkout of this book, press directly on book title and make chore you not in delete mode
+
 ### Book view + delete
 ![img.png](img.png)
 ![img_1.png](img_1.png)
