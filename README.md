@@ -1,74 +1,44 @@
-# Test assignment
-
-Welcome to CGI test assignment!
-This is the project template which contains Angular front-end and Spring Boot back-end
-
-## Setting up Spring Boot application.
-
-1. Make sure you have installed Java. For development OpenJDK 11 from [Adoptium](https://adoptium.net/) should be used.
-2. Install Intellij IDEA Commmunity edition
-3. Import the Maven project
-4. Run the LibraryApplication from IDE.
-
-However, you can also install Maven and run the back-end from terminal with
-`mvn spring-boot:run` in project directory
-(make sure your JAVA_HOME variable is set up to point to
-your Java 11 installation in that case)
-
-## Setting up Angular application.
-
-To get Angular app up and running you need to:
-
-1. Make sure you have [NodeJS](https://nodejs.org/en/download/) version 18+ installed.
-2. Open the terminal.
-3. Navigate to frontend project `cd frontend/`
-4. Install all dependencies with npm `npm install`. NB: This might take a while.
-5. Start the development server `npm run start`.
-   Frontend runs on port 4200, so make sure it's not in use.
-   
-   First build takes a lot of time, so be patient...
-
-   ![Compiling](https://imgs.xkcd.com/comics/compiling.png)
-6. Once development server is running, open app at http://localhost:4200. If you can see a list of books then it means that you have sucessfully set up and run the application
-7. Start coding :)
-
-##General guidelines
-
-* Tasks don't have to be completed in order.
-* Try to complete as many as possible. 
-* You are free to modify both front-end and back-end as you deem necessary. This includes the option to use another front-end framework if you wish.
-* Regarding UI design, you are also free to choose: use Material Design components, your favorite library or implement everything yourself.
-* You can and are encouraged to also implement additional cool features that you think would
-really help showcase and distinguish your skills.
-
-* We appreciate if you use version control and commit often, so we can also get an insight into your
-workflow and how you approached the problems. 
-
-* Please document your added functionality, it would be helpful if you point out what was easy / difficult / interesting etc
-
-* If you are using in your solution code written by other people 
-(examples, tutorials, StackOverflow etc), then please cite the source for these blocks
-in your solution using comments. This helps us distinguish code written by you.
-
-If you have any questions, please reach out without hesitation. Best of luck!
-
-##Development tasks
-
+## Functionality that has been implemented
 * Using backend api endpoint /getBooks, implement table of books view `(It was done by task developer)`
-* Using backend api endpoint /getCheckouts, also implement the checkouts view. Suppport paging and sorting for both views `(done)`
-* Implement individual book and checkout view, support basic CRUD operations, implement checking out and returning books `(done)`
+* Using checkout api endpoint /getBooks, implement table of checkout view `(done)`
+* BookView pagination `(done)`
+* BookView sorting by title or author + direction `(done)`
+* Checkout pagination `(done)`
+* Checkout sorting by title or author + direction `(done)`
+* Book CRUD implementation `(done)`
+* Checkout CRUD implementation, also when create/delete/update changed book status and due date`(done)`
 * Implement searching for books using freetext criteria  `(done)`
-* Implement filtering for books by status
-* Implement saving / displaying favorite books for current user (you can use localStorage if you don't want to make back-end changes)
-* Add modal confirmation dialogues when deleting or checking out books
-* Implement a user-friendly way to display late checkouts
 
-#####Bonus tasks:
-* Implement advanced search form for books, where user can specify and combine different criterias (title, author year etc)
-* Add UI and backend tests 
-* Add support for multiple languages
-* Add support for multiple users and different user roles: reader and librarian.
-Reader should not be able to add / modify / delete existing book information or tamper with checkouts
-but should be able to save favorites and check out / return books (that they have checked out)
-* Containerize your application to make it cloud-native
+### Book view + delete
+![img.png](img.png)
+![img_1.png](img_1.png)
+### Checkout create
+![img_2.png](img_2.png)
+![img_3.png](img_3.png)
+### Book create
+![img_11.png](img_11.png)
+### Book edit
+![img_4.png](img_4.png)
+### Checkout view
+![img_5.png](img_5.png)
+![img_6.png](img_6.png)
+### Checkout edit + delete
+![img_7.png](img_7.png)
+![img_8.png](img_8.png)
+### Sorting + direction
+![img_9.png](img_9.png)
+### Search
+![img_10.png](img_10.png)
+
+## Challenges
+
+- The hardest part was learning Angular and TypeScript from scratch. Because previously I had no experience with this framework and language, and in general, not particularly worked with the front end. 
+- Complete someone else's code. As it often happens it is much easier to write from scratch than to supplement existing code.
+- My personal challenge, because of the study and work I could not devote as much time to this task as I wanted, also did not have time to do everything I wanted :')
+- Also felt the lack of description of the application, what its essence and the interaction of objects with each other. 
+- Also, I have not worked with the built-in database given SpringBoot (before that was the experience of creating a local database of the type PostgreSql or MySql). Which also took me a while to figure out.
+
+## Personal experience
+- Despite all the challenges, I really enjoyed working on this assignment. This is different from what I usually do, often in all group projects I am responsible for the back-end and the database. Here I was able to get experience with front-end development, it is always interesting to learn something new. I also discovered some new features of SpringBoot, which was a pleasant discovery for me. Of course, my code is far from perfect, and it has not been clean code at least for the front-end part, but I am very satisfied with the results of my work anyway, considering the possibilities I had. I would very much like to communicate with the person who developed this task :)
+
 
